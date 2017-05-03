@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发布试用</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/reset_content.css">
+    <link rel="stylesheet" href="../../css/settings_trialNumber.css">
+</head>
+
+<body>
+    <header id="header"></header>
+    <section id="section">
+        <div class="section_main">
+            <!--左侧导航-->
+            <aside class="left" id="left_nav"></aside>
+            <!--右侧店铺管理-->
+            <div class="store_content left">
+                <h1 class="title">发布试用</h1>
+                <!--进度条-->
+                <div class="progress_bar">
+                    <img src="../../images/sj_fbsy_bg_jdt_four_default.png" alt="">
+                </div>
+                <!--4.设置试用份数-->
+                <div class="settings_trialNumber">
+                    <!-- 产品详情 -->
+                    <h2 class="title">4.设置试用份数</h2>
+                    <div class="trial_content">
+                        <ul>
+                            <li>
+                                <img src="../../images/sj_grzx_bg_sp_default.png" alt="">
+                            </li>
+                            <li>
+                                <p>商品名称：<span>yingyingyingyingyingyingying</span></p>
+                                <p>商品分类：<span>女装</span></p>
+                                <p>商品规格：<span>米色.M</span></p>
+                                <p>商品链接：<span>httPs://wwww.yuntuigou.com</span></p>
+                            </li>
+                            <li>
+                                <p>店铺名称：<span>yingyingyingyingyingyingying</span></p>
+                                <p>平台：<span>淘宝</span></p>
+                                <p><span>通过淘宝自然搜索</span></p>
+                            </li>
+                            <li>
+                                <p>商品关键词：<span>女装</span></p>
+                                <p>筛选列表：<span>香奈儿、裙装...</span></p>
+                                <p>折扣和服务：<span>24小时发货、货到付款</span></p>
+                                <p>排列方式：<span>httPs://wwww.yuntuigou.com</span></p>
+                            </li>
+                            <li>
+                                <p>价格：<span>&yen;1000</span></p>
+                                <p>发货地：<span>全国</span></p>
+                                <p>商品运费：<span>全国包邮</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 设置活动展示时间 -->
+                    <div class="setTime set" data-tryType=2>
+                        <h3 class="set-title">设置活动展示时间：</h3>
+                        <p>试用活动截止后，平台将会为您在参与活动的试客中进行抽奖，并发放所有试用商品给获得试用资格的试客</p>
+                        <p>设置越长的抽奖时间可以增加试客收藏宝贝和店铺，增加重复访问率，从而优化宝贝和店铺权重</p>
+                        <div class="choice">
+                            <input type="radio" name="delay" value="4" id="delay4" checked>
+                            <label class="delay" for="delay4" data-value="4">4天（网站新上线，暂时免费）<b>推荐</b></label>
+                            <input type="radio" value="6" name="delay" id="delay6">
+                            <label class="delay" for="delay6" data-value="6">6天（网站新上线，暂时免费）</label>
+                        </div>
+                    </div>
+                    <!-- 设置上线时间 -->
+                    <div class="setTime set">
+                        <h3 class="set-title">设置上线时间：</h3>
+                        <p>请设置任务上线的时间：
+                            <input type="text" id="chooseTime">（请设置每天试用投放份数，总计发放总单数不得低于<b>10单</b>，建议投放天数大于<b>2天</b>。）</p>
+                    </div>
+                    <div class="setTime set" data-tryType=3>
+                        <p><b>商家发布任务时间提醒：</b></p>
+                        <p>每日16:00前发布的试用活动审核通过后将于<b>当天上线</b>展示，并当天开奖，有试客来下单。</p>
+                        <p>每日16:00后发布的试用活动审核通过后将于<b>次日上午10:00</b>上线展示，并当天开奖，有试客来下单。</p>
+                    </div>
+                    <!-- 设置投放计划 -->
+                    <div class="setPlan-sum set">
+                        <h3 class="set-title">设置试用投放计划：</h3>
+                        <p><b>转化率设置说明：</b></p>
+                        <p>请设置您店铺适合的投放件数和转化率，试客巴将限制当日完成申请的最高访客数，访客数预计会有5%-10%偏差，无法精确控制到个位数。
+                            <br>建议逐渐提高每日投放件数，增长率不要超过<b>20%</b>！</p>
+                    </div>
+                    <!-- 试用总份数日历 -->
+                    <div class="calendar">
+                        <div class="calendar-main">
+                            <p class="timeScope _timeScope"></p>
+                            <ul class="date">
+                                <li class="row week-day">
+                                    <ul class="clearfix">
+                                        <li>日</li>
+                                        <li>一</li>
+                                        <li>二</li>
+                                        <li>三</li>
+                                        <li>四</li>
+                                        <li>五</li>
+                                        <li>六</li>
+                                    </ul>
+                                </li>
+                                <li class="row row-one">
+                                    <ul class="clearfix" id="row_one_sum">
+                                       
+                                    </ul>
+                                </li>
+                                <li class="row row-two">
+                                    <ul class="clearfix" id="row_two_sum">
+                                      
+                                    </ul>
+                                </li>
+                                <li class="row row-three">
+                                    <ul class="clearfix" id="row_three_sum">
+                                      
+                                    </ul>
+                                </li>
+                                <li class="row row-four">
+                                    <ul class="clearfix" id="row_four_sum">
+                                       
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <p class="sum-tryOrder" id="sum-tryOrder">合计试用单数：<b>0单</b></p>
+                        <p class="tips"><b>注意：</b>因商品受欢迎程度各异，试客巴不承诺一定完成当日商家设定的最高进店人数。</p>
+                    </div>
+                    <!-- 设置兑换投放计划 -->
+                    <div class="setPlan-exchange">
+                        <p class="sum-exchangeOrder" id="sum-exchangeOrder">其中有<b>0单</b>试用是兑换试用，请设置兑换试用投放计划：</p>
+                        <div class="exchange-tips">
+                            <p>说明：</p>
+                            <p>1、兑换试用，试客无需等待开奖时间，能直接连贯的进行搜索进店下单购买等操作，提升转化率；</p>
+                            <p>2、必须设置兑换份数投放计划；</p>
+                            <p>3、兑换份数是从投放的份数中拿出<b>20%</b>用作兑换，不是额外再增加投放份数。</p>
+                            <p>4、若投放份数有变化，则需要重新设置兑换试用投放计划。</p>
+                        </div>
+                    </div>
+                    <!-- 试用兑换日历 -->
+                    <div class="calendar-exchange">
+                        <div class="calendar">
+                            <div class="calendar-main">
+                                <p class="timeScope _timeScope"></p>
+                                <ul class="date">
+                                    <li class="row week-day">
+                                        <ul class="clearfix">
+                                            <li>日</li>
+                                            <li>一</li>
+                                            <li>二</li>
+                                            <li>三</li>
+                                            <li>四</li>
+                                            <li>五</li>
+                                            <li>六</li>
+                                        </ul>
+                                    </li>
+                                    <li class="row row-one">
+                                        <ul class="clearfix" id="row_one_exc">
+                                           
+                                        </ul>
+                                    </li>
+                                    <li class="row row-two">
+                                        <ul class="clearfix" id="row_two_exc">
+                                           
+                                        </ul>
+                                    </li>
+                                    <li class="row row-three">
+                                        <ul class="clearfix" id="row_three_exc">
+                                        
+                                        </ul>
+                                    </li>
+                                    <li class="row row-four">
+                                        <ul class="clearfix" id="row_four_exc">
+                                          
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <p class="sum-tryOrder" id="sum-exc-tryOrder">已分配兑换试用单数：<b>0单</b></p>
+                        </div>
+                    </div>
+                    <!-- 温馨提示 -->
+                    <div class="all-tips">
+                        <p class="tips-title"><b>温馨提示：</b></p>
+                        <p>1.根据多位利用试客巴试用打造爆款的商家分享的经验，我们建议您每款商品至少发布4-6次；</p>
+                        <p>2.请在发布试用推广期间，暂停淘宝客等返利设置，避免不必要的损失；</p>
+                        <p>3.如使用猎豹、360等浏览器无法正常发布试用，请选择修改浏览器模式为极速模式，或更换使用谷歌和火狐浏览器</p>
+                    </div>
+                    <div class="nextStep_btn">
+                        <input onclick="location.href='0301_settings_search.html'" type="button" value="上一步" />
+                        <input onclick="location.href='0301_select_service.html'" type="button" value="下一步" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="footer"></footer>
+    <script src="../../js/jquery-1.10.2.js"></script>
+    <script src="../../js/laydate.js"></script>
+    <script src="../../js/0301_settings_trialNumber/0301_settings_trialNumber.js"></script>
+    <script>
+    $(function() {
+        $('#header').load("../common/merchant_header.html");
+        $('#footer').load("../common/footer.html");
+        $('#left_nav').load("../common/left_nav.html", function() {
+            $('.try_manage ul>li').find('a').eq(0).addClass('leftNav_active')
+        });
+    })
+    </script>
+
+</html>

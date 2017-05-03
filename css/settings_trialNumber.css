@@ -1,0 +1,395 @@
+.search_active {
+    background: url(../images/spot.png) left center no-repeat !important;
+}
+
+#section .section_main .store_content {
+    padding-bottom: 20px;
+}
+
+#section .section_main .store_content .progress_bar {
+    padding: 50px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+#section .section_main .store_content .settings_trialNumber h2.title {
+    font-size: 16px;
+    padding: 18px 0;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul {
+    height: 118px;
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+    padding: 18px 0;
+    overflow: hidden;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li {
+    box-sizing: border-box;
+    float: left;
+    color: #323232;
+    height: 80px;
+    padding: 0 20px;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li p {
+    font-size: 12px;
+    color: #969696;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li p span {
+    color: #323232;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(2),
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(3),
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(4) {
+    width: 230px;
+    border-right: 1px solid #f5f5f5;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(2) p,
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(3) p,
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(4) p {
+    width: 190px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(2) p,
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(4) p {
+    line-height: 20px;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(3) p,
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:nth-of-type(5) p {
+    line-height: 26px;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul .li:first-of-type {
+    padding-left: 10px;
+    width: 110px;
+}
+
+#section .section_main .store_content .settings_trialNumber .trial_content ul li:last-of-type {
+    width: 170px;
+}
+
+
+/* 设置上线时间 */
+
+.settings_trialNumber .set-title {
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+    color: #323232;
+    margin-bottom: 15px;
+}
+
+.settings_trialNumber .set-title::before {
+    content: "*";
+    color: #f10180;
+}
+
+.settings_trialNumber b {
+    color: #f10180;
+}
+
+.setTime {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+
+/* data-tryType=2  高价值类型*/
+
+.setTime[data-tryType="2"] {
+    display: none;
+}
+
+.setTime[data-tryType="2"] .choice {
+    margin-top: 10px;
+    position: relative;
+}
+
+.setTime[data-tryType="2"] .choice input {
+    position: absolute;
+    z-index: -9999;
+}
+
+.setTime[data-tryType="2"] .choice label.delay {
+    margin-right: 35px;
+    padding-left: 25px;
+    cursor: pointer;
+    color: #333;
+    background: url(../images/settings_trialNumber/sj_fbsy_icon_quan_default.png) no-repeat left center;
+}
+
+.setTime[data-tryType="2"] .choice input:checked+label {
+    background: url(../images/settings_trialNumber/spot.png) no-repeat left center;
+}
+
+
+/* data-tryType=3  综合类型 */
+
+.setTime[data-tryType="3"] {
+    display: none;
+}
+
+.setTime[data-tryType="3"] p {
+    line-height: 24px;
+}
+
+
+/* 日历插件样式 */
+
+#chooseTime {
+    width: 120px;
+    padding: 4px;
+    border: 2px solid #f1f1f1;
+    border-radius: 5px;
+    background: url(../js/skins/default/icon.png) no-repeat right center;
+}
+
+
+/* 设置投放计划 */
+
+.setPlan-sum p {
+    margin-bottom: 15px;
+}
+
+
+/* 试用总份数日历 */
+
+.calendar {
+    border: 1px solid #ffe5e9;
+    background-color: #fffcfd;
+}
+
+
+/* 日历主体 */
+
+.calendar .calendar-main {
+    width: 898px;
+    margin: 40px auto;
+    background-color: #fff;
+}
+
+.calendar-main .timeScope {
+    width: 897px;
+    font-size: 14px;
+    line-height: 54px;
+    border: 1px solid #f1f1f1;
+    margin-left: -1px;
+    text-align: center;
+}
+
+.calendar-main .row li {
+    width: 129px;
+    height: 120px;
+    border: 1px solid #f1f1f1;
+    float: left;
+    margin-left: -1px;
+    margin-top: -1px;
+    text-align: center;
+}
+
+.calendar-main .week-day li {
+    height: 50px;
+    line-height: 50px;
+    border: 1px solid #f1f1f1;
+    float: left;
+    margin-left: -1px;
+    margin-top: -1px;
+    text-align: center;
+}
+
+
+/* 日期单元格 */
+
+.calendar-main .date .row .date-day {
+    font-size: 30px;
+    color: #005ea7;
+}
+
+.calendar-main .date .row .p-choose {
+    width: 114px;
+    font-size: 0;
+    margin: 0 auto 5px;
+}
+
+.calendar-main .date .row .p-choose .p-btn {
+    width: 66px;
+    height: 24px;
+    font-size: 12px;
+    border: 1px solid #f5f5f5;
+    text-align:center;
+    vertical-align: middle;
+}
+
+.calendar-main .date .row .p-choose .change-num {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    display: inline-block;
+    background-color: #f5f5f5;
+    vertical-align: middle;
+}
+
+.calendar-main .date .row .rate-box {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.calendar-main .date .row .rate {
+    width: 112px;
+    height: 24px;
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 20px;
+    text-align:center;
+    border: 1px solid #f5f5f5;
+}
+
+.calendar-main .date .row .rate-box i {
+    position: absolute;
+    top: 4px;
+    right: 14px;
+}
+
+.calendar-main .date .row .only-show {
+    background-color: #f5f5f5;
+}
+
+.calendar-main .date .row .only-show p:nth-of-type(2) {
+    font-size: 12px;
+    color: #646464;
+}
+
+.calendar-main .date .row .only-show .only-show-day {
+    font-size: 30px;
+    margin-top: 24px;
+    margin-bottom: 6px;
+    color: #969696;
+}
+
+.calendar-main .date .row .only-show .only-show-day {
+    font-size: 30px;
+    margin-top: 24px;
+    margin-bottom: 6px;
+    color: #969696;
+}
+
+
+/* 兑换订单不能编辑状态 */
+
+.calendar-exchange li.disable {
+    position: relative;
+}
+
+.calendar-exchange li.disable .box-mask {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    opacity: 0.5;
+    z-index: 2;
+}
+
+.calendar-exchange li.disable .box-main {
+    position: relative;
+    top: -119px;
+    left: 0;
+}
+ 
+.calendar-exchange .row li.disable .date-day {
+    color: #969696;
+}
+
+/* 不允许兑换日历的输入框输入 */
+.calendar-exchange .calendar-main .date .row .p-choose .p-btn {
+    cursor:not-allowed;
+}
+
+
+/* 合计订单 */
+
+.calendar .sum-tryOrder {
+    font-size: 16px;
+    color: #323232;
+    margin: 20px 0 20px 40px;
+}
+
+.calendar .tips {
+    font-size: 14px;
+    color: #323232;
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
+
+/* 兑换试用计划 */
+
+.setPlan-exchange .sum-exchangeOrder {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #323232;
+}
+
+.setPlan-exchange .exchange-tips {
+    font-size: 12px;
+    color: #646464;
+    margin-bottom: 10px;
+}
+
+
+/* 设置兑换投放计划 */
+
+.setPlan-exchange {
+    background-color: #fff;
+}
+
+
+/* 试用兑换日历 */
+
+.calendar-exchange {}
+
+.calendar-exchange .row p.date-day {
+    margin-top: 10px;
+}
+
+
+/* 温馨提示 */
+
+.all-tips {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.all-tips .tips-title {
+    margin-bottom: 20px;
+}
+
+.all-tips p {
+    margin-bottom: 6px;
+}
+
+#section .section_main .store_content .settings_trialNumber .nextStep_btn input {
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid #f10180;
+    margin: 20px 30px 30px 0;
+    background-color: #f10180;
+    color: #fff;
+}
+
+#section .section_main .store_content .settings_trialNumber .nextStep_btn input:first-of-type {
+    margin-left: 100px;
+    background-color: #fff;
+    color: #f10180;
+}

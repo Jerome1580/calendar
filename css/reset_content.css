@@ -1,0 +1,47 @@
+.leftNav_active {
+  color: #f10180 !important ;
+  text-decoration: underline ;
+}
+#section {
+  width: 100%;
+  background-color: #f5f5f5;
+  padding-bottom: 50px;
+}
+#section .section_main {
+  width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#section .section_main .content,
+#section .section_main .store_content,
+#section .section_main .basic_setup,
+#section .section_main .bound_bankCard,
+#section .section_main .add_bankCard,
+#section .section_main .member_manage,
+#section .section_main .deposit_recharge,
+#section .section_main .deposit_withdraw,
+#section .section_main .funds_record,
+#section .section_main .message_notification {
+  width: 1040px;
+  margin-left: 10px;
+  min-height: 555px;
+}
+#section .section_main h1.title {
+  color: #323232;
+  font-size: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f5f5f5;
+}
+#section .section_main .store_content,
+#section .section_main .basic_setup,
+#section .section_main .bound_bankCard,
+#section .section_main .add_bankCard,
+#section .section_main .member_manage,
+#section .section_main .deposit_recharge,
+#section .section_main .deposit_withdraw,
+#section .section_main .funds_record,
+#section .section_main .message_notification {
+  padding: 30px;
+  background-color: #fff;
+  min-height: 555px;
+}
