@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>发布试用</title>
-    <link rel="stylesheet" href="../../css/reset.css">
-    <link rel="stylesheet" href="../../css/reset_content.css">
-    <link rel="stylesheet" href="../../css/settings_trialNumber.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/reset_content.css">
+    <link rel="stylesheet" href="../css/modal_alert_new.css">
+    <link rel="stylesheet" href="../css/settings_trialNumber.css">
 </head>
 
 <body>
@@ -20,7 +21,7 @@
                 <h1 class="title">发布试用</h1>
                 <!--进度条-->
                 <div class="progress_bar">
-                    <img src="../../images/sj_fbsy_bg_jdt_four_default.png" alt="">
+                    <img src="../images/sj_fbsy_bg_jdt_four_default.png" alt="">
                 </div>
                 <!--4.设置试用份数-->
                 <div class="settings_trialNumber">
@@ -29,7 +30,7 @@
                     <div class="trial_content">
                         <ul>
                             <li>
-                                <img src="../../images/sj_grzx_bg_sp_default.png" alt="">
+                                <img src="../images/sj_grzx_bg_sp_default.png" alt="">
                             </li>
                             <li>
                                 <p>商品名称：<span>yingyingyingyingyingyingying</span></p>
@@ -86,45 +87,43 @@
                             <br>建议逐渐提高每日投放件数，增长率不要超过<b>20%</b>！</p>
                     </div>
                     <!-- 试用总份数日历 -->
-                    <div class="calendar">
-                        <div class="calendar-main">
-                            <p class="timeScope _timeScope"></p>
-                            <ul class="date">
-                                <li class="row week-day">
-                                    <ul class="clearfix">
-                                        <li>日</li>
-                                        <li>一</li>
-                                        <li>二</li>
-                                        <li>三</li>
-                                        <li>四</li>
-                                        <li>五</li>
-                                        <li>六</li>
-                                    </ul>
-                                </li>
-                                <li class="row row-one">
-                                    <ul class="clearfix" id="row_one_sum">
-                                       
-                                    </ul>
-                                </li>
-                                <li class="row row-two">
-                                    <ul class="clearfix" id="row_two_sum">
-                                      
-                                    </ul>
-                                </li>
-                                <li class="row row-three">
-                                    <ul class="clearfix" id="row_three_sum">
-                                      
-                                    </ul>
-                                </li>
-                                <li class="row row-four">
-                                    <ul class="clearfix" id="row_four_sum">
-                                       
-                                    </ul>
-                                </li>
-                            </ul>
+                    <div class="calendar-try">
+                        <div class="calendar">
+                            <div class="calendar-main">
+                                <p class="timeScope _timeScope"></p>
+                                <ul class="date">
+                                    <li class="row week-day">
+                                        <ul class="clearfix">
+                                            <li>日</li>
+                                            <li>一</li>
+                                            <li>二</li>
+                                            <li>三</li>
+                                            <li>四</li>
+                                            <li>五</li>
+                                            <li>六</li>
+                                        </ul>
+                                    </li>
+                                    <li class="row row-one">
+                                        <ul class="clearfix" id="row_one_sum">
+                                        </ul>
+                                    </li>
+                                    <li class="row row-two">
+                                        <ul class="clearfix" id="row_two_sum">
+                                        </ul>
+                                    </li>
+                                    <li class="row row-three">
+                                        <ul class="clearfix" id="row_three_sum">
+                                        </ul>
+                                    </li>
+                                    <li class="row row-four">
+                                        <ul class="clearfix" id="row_four_sum">
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <p class="sum-tryOrder" id="sum-tryOrder">合计试用单数：<b>0单</b></p>
+                            <p class="tips"><b>注意：</b>因商品受欢迎程度各异，试客巴不承诺一定完成当日商家设定的最高进店人数。</p>
                         </div>
-                        <p class="sum-tryOrder" id="sum-tryOrder">合计试用单数：<b>0单</b></p>
-                        <p class="tips"><b>注意：</b>因商品受欢迎程度各异，试客巴不承诺一定完成当日商家设定的最高进店人数。</p>
                     </div>
                     <!-- 设置兑换投放计划 -->
                     <div class="setPlan-exchange">
@@ -156,22 +155,18 @@
                                     </li>
                                     <li class="row row-one">
                                         <ul class="clearfix" id="row_one_exc">
-                                           
                                         </ul>
                                     </li>
                                     <li class="row row-two">
                                         <ul class="clearfix" id="row_two_exc">
-                                           
                                         </ul>
                                     </li>
                                     <li class="row row-three">
                                         <ul class="clearfix" id="row_three_exc">
-                                        
                                         </ul>
                                     </li>
                                     <li class="row row-four">
                                         <ul class="clearfix" id="row_four_exc">
-                                          
                                         </ul>
                                     </li>
                                 </ul>
@@ -188,21 +183,34 @@
                     </div>
                     <div class="nextStep_btn">
                         <input onclick="location.href='0301_settings_search.html'" type="button" value="上一步" />
-                        <input onclick="location.href='0301_select_service.html'" type="button" value="下一步" />
+                        <input id="next_btn" type="button" value="下一步" />
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <footer id="footer"></footer>
-    <script src="../../js/jquery-1.10.2.js"></script>
-    <script src="../../js/laydate.js"></script>
-    <script src="../../js/0301_settings_trialNumber/0301_settings_trialNumber.js"></script>
+    <div class="mask_layer" id="mask_layer"></div>
+    <div class="modal_box" id="next_tips">
+        <div class="modal_prompt">
+            <span>提示</span>
+            <a class="close" href="javascript:void(0);">x</a>
+        </div>
+        <div class="modal_content">
+            <p>总计发放单数不得低于10单,请修改投放计划！</p>
+        </div>
+        <div class="modal_submit">
+            <input class="confirm close" type="button" value="我知道了" />
+        </div>
+    </div>
+    <script src="../js/jquery-1.10.2.js"></script>
+    <script src="../js/laydate.js"></script>
+    <script src="../js/calc/calc.js"></script>
     <script>
     $(function() {
-        $('#header').load("../common/merchant_header.html");
-        $('#footer').load("../common/footer.html");
-        $('#left_nav').load("../common/left_nav.html", function() {
+        $('#header').load("common/merchant_header.html");
+        $('#footer').load("common/footer.html");
+        $('#left_nav').load("common/left_nav.html", function() {
             $('.try_manage ul>li').find('a').eq(0).addClass('leftNav_active')
         });
     })

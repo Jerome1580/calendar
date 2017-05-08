@@ -1,0 +1,96 @@
+.modal_box {
+    padding-bottom: 40px;
+    position: fixed;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    margin-left: -225px;
+    margin-top: -132.5px;
+    width: 450px;
+    height: 265px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+}
+
+.modal_box .modal_prompt {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+.modal_box .modal_prompt span,
+.modal_box .modal_prompt a {
+    display: inline-block;
+}
+
+.modal_box .modal_prompt span {
+    float: left;
+    color: #646464;
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.modal_box .modal_prompt a {
+    float: right;
+    padding-right: 10px;
+    font-size:16px;
+}
+
+.modal_content {
+    min-height: 149px;
+}
+
+.modal_content p {
+    padding: 60px 5px;
+    font-size: 16px;
+}
+
+.modal_submit {
+    padding-top: 15px;
+}
+
+.modal_submit input {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    background-color: #f10180;
+    border-radius: 5px;
+}
+
+.modal_submit input:nth-of-type(2) {
+    margin-left: 35px;
+}
+
+.mask_layer {
+    background-color: #000;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 88;
+    display: none;
+}
+
+
+/* 带有驳回操作的 */
+.reject > .modal_content > p{
+    padding:12px 5px;
+}
+
+.reject > .modal_content > p > textarea {
+    margin: 0px;
+    width: 300px;
+    height: 130px;
+    border: 1px solid #f1f1f1;
+    resize:none;
+    vertical-align: top;
+}

@@ -20,7 +20,10 @@
 
     init(type);
     bindEvent(type);
+
+
 })()
+
 
 function init(type) {
 
@@ -36,8 +39,10 @@ function init(type) {
     if (type.tryType == 3 && hour >= 16) {
         // 如果是综合日历，且在16:00以后进来的
         whichDay(tomorrow, type);
+        $('#chooseTime').val(tomorrow.toLocaleDateString());
     } else {
         whichDay(today, type);
+        $('#chooseTime').val(today.toLocaleDateString());
     }
 
 }
@@ -46,28 +51,92 @@ function init(type) {
 
 function bindEvent(type) {
 
-
+    // 获取用户选择日期
     chooseTime(type);
 
 
     // 切换高价值日历，延迟展示时间
     var today = new Date();
-
     $('.choice > label').on('click', function() {
         type.delay = $(this).data('value');
-
         // 获取当前用户选择的天数
         var chooseDay = $('#chooseTime').val();
-
         chooseDay ? whichDay(new Date(chooseDay), type) : whichDay(today, type);
 
         schedule(type);
 
     })
 
-
     // 开始投放
     schedule(type);
+
+    // 各种异常判断提示
+    tips(type);
+
+}
+
+
+function tips(type) {
+    // 总投放计划少于10，兑换订单不足提示
+    lessTips(type);
+
+}
+
+
+function lessTips(type) {
+
+    var flag = 0;
+
+    $('#next_btn').on('mouseenter', function() {
+
+        var _input_box = $('.calendar-try .p-choose .p-btn');
+        var sumOrder = 0;
+        var excOrder = 0;
+
+        _input_box.each(function(i) {
+            sumOrder += isNaN(parseInt(_input_box[i].value)) ? 0 : parseInt(_input_box[i].value);
+
+        })
+
+        var _exc_input_box = $('.calendar-exchange .p-choose .p-btn');
+
+        _exc_input_box.each(function(i) {
+            excOrder += isNaN(parseInt(_exc_input_box[i].value)) ? 0 : parseInt(_exc_input_box[i].value);
+        });
+
+
+        if (sumOrder > 10) {
+            if (excOrder == Math.round(sumOrder * 0.2)) {
+                //如果都满足条件 
+                flag = 1
+            } else {
+                //兑换试用单不足 
+                flag = 2;
+            }
+        } else {
+            //发单数不足 
+            flag = 3;
+        }
+    }).on('click', function() {
+        if (flag == 1) {
+            window.location.href = '0301_select_service.html';
+
+        } else if (flag == 2) {
+            var excOrder = parseInt($('#sum-exchangeOrder >b').html());
+            $('#next_tips .modal_content >p').html('兑换试用单数不能少于' + excOrder + '单！');
+            $('#mask_layer,#next_tips').show();
+
+        } else if (flag == 3) {
+
+            $('#next_tips .modal_content >p').html('总计发放单数不得低于10单！');
+            $('#mask_layer,#next_tips').show();
+        }
+    })
+    $('.close').on('click', function() {
+        $('#mask_layer,#next_tips').hide();
+    })
+
+
 }
 
 
@@ -517,7 +586,7 @@ function _invalidExcBox() {
 function schedule(type) {
 
 
-    var order = { 'sumOrder': 0, 'excOrder': 0, 'excActiveOrder': 0, 'maxOrder': {}, 'maxAtiveOrder': {} }
+    var order = { 'sumOrder': 0, 'excOrder': 0, 'excActiveOrder': 0, 'maxOrder': {}, 'maxActiveOrder': {} }
 
     // 重新执行schedule前需要对页面上上一次的统计数据进行清空
     clearSumData();
@@ -528,7 +597,12 @@ function schedule(type) {
     // 兑换日历操作
     exchangeSchedule(type, order);
 
+    // 开始投放时，检查用户有没有填写过日历，如果有则显示用户写过的
+    isWrited(type, order);
+
 }
+
+
 
 
 
@@ -645,10 +719,9 @@ function planSchedule(type, order) {
     _addBtn.on('click', function() {
         var _this = $(this);
         autoType = 1;
-        // 理论上应该判断文本框是从无到有，才执行isBounce，这样提高效率，后续在加。
-        // 方法一：把点击拆分成mousedown，mouseup事件获取input框之前之后的值来判断
+        // 可以应该判断文本框是从无到有，才执行isBounce，这样提高效率，后续在加。
         isBounce(autoType, _this, vals_arr);
-        sumOrder(vals_arr, order);
+        calcSumOrder(vals_arr, order);
         limitPeople();
         // 兑换日历
         exchangeSchedule(type, order);
@@ -660,7 +733,7 @@ function planSchedule(type, order) {
         var _this = $(this);
         autoType = -1;
         isBounce(autoType, _this, vals_arr);
-        sumOrder(vals_arr, order);
+        calcSumOrder(vals_arr, order);
         limitPeople();
         exchangeSchedule(type, order);
     });
@@ -669,7 +742,7 @@ function planSchedule(type, order) {
         var _this = $(this);
         autoType = $(this).val() == "" ? -1 : 1;
         isBounce(autoType, _this, vals_arr);
-        sumOrder(vals_arr, order);
+        calcSumOrder(vals_arr, order);
         limitPeople();
         exchangeSchedule(type, order);
 
@@ -748,7 +821,7 @@ function limitPeople() {
         if (!isNaN(inputNums[i]) && !isNaN(rateNums[i])) {
 
             var limitNum = Math.ceil(inputNums[i] / (rateNums[i] / 100));
-            $(limit_people[i]).html('限制进店人数<b>'+limitNum + '</b>人');
+            $(limit_people[i]).html('限制进店人数<b>' + limitNum + '</b>人');
 
         } else {
             $(limit_people[i]).html('进店人数<b>最大化</b>');
@@ -758,7 +831,7 @@ function limitPeople() {
 }
 
 // 计算试用订单、兑换总数 
-function sumOrder(vals_arr, order) {
+function calcSumOrder(vals_arr, order) {
     var sumOrder = 0;
     for (var i = 0, len = vals_arr.length; i < len; i++) {
         if (vals_arr[i])
@@ -777,7 +850,7 @@ function sumOrder(vals_arr, order) {
 function exchangeSchedule(type, order) {
 
     // 打开对应兑换盒子
-    openExcBox(type, order);
+    openExcBox(type);
 
     // 计算每个兑换盒子的最大值
     calcMax(order);
@@ -787,7 +860,7 @@ function exchangeSchedule(type, order) {
 }
 
 
-function openExcBox(type, order) {
+function openExcBox(type) {
 
     // 获取所有的投放数量盒子input
     var _validInputs = $('.validDay >.p-choose > .p-btn');
@@ -858,66 +931,51 @@ function calcMax(order, index, clickType) {
 
     for (var i = 0; i < validLen; i++) {
         // 获取当前用户输入的兑换的数字
-        exc_inputNums[i] = isNaN(parseInt(_excInput[i].value))?0:parseInt(_excInput[i].value);
+        exc_inputNums[i] = isNaN(parseInt(_excInput[i].value)) ? 0 : parseInt(_excInput[i].value);
         // 如果是通过兑换按钮改变的，则除了改变的maxNum不在这里改变（因为在点击的时候改变），其他的是按照最小值和投放日历比较得到
-        if (!index) {
-
+        if (!clickType) {
             // 页面初始化
             inputNums[i] = isNaN(parseInt(_validInputs[i].value)) ? 0 : parseInt(_validInputs[i].value); //5
-
             maxNum[i] = Math.min(inputNums[i], excActiveOrder);
 
-
             currentMax = Math.min(maxNum[i], inputNums[i]);
-
             currentMax = currentMax < 0 ? 0 : currentMax;
             // 记录所有兑换盒子原始的最大值
             order.maxOrder[i] = currentMax;
 
-            order.maxAtiveOrder[i] = order.maxOrder[i];
-            
+            order.maxActiveOrder[i] = order.maxOrder[i];
 
         } else if (clickType == 1) {
             // 如果点击的是+
             if (i != index) {
                 // 判断如果不是点击的盒子，判断剩余兑换的最大值和当前最大值比较
-
-                var param = Math.min(excActiveOrder, order.maxAtiveOrder[i]);
-                order.maxAtiveOrder[i] = param;
+                var param = Math.min(excActiveOrder, order.maxActiveOrder[i]);
+                order.maxActiveOrder[i] = param;
             } else if (i == index) {
                 // 如果是当前盒子，则最大值就是当前最大的
-                param = order.maxAtiveOrder[i];
+                param = order.maxActiveOrder[i];
             }
-
-
         } else if (clickType == 2) {
             // 如果点击的是-
             if (i != index) {
                 // 判断如果不是点击的盒子，判断剩余兑换的最大值和当前最大值比较
 
                 // 当前的所有盒子活动的最大值+1
-                var param = order.maxAtiveOrder[i] + 1 ;
+                var param = order.maxActiveOrder[i] + 1;
 
                 // 如果兑换的数字+当天限制的日期+1  超过了 原始的最大值，让最大值等于原始值
-                if((exc_inputNums[i] + param ) > order.maxOrder[i]){
-                    order.maxAtiveOrder[i] = order.maxAtiveOrder[i];
-                }else{
-                    order.maxAtiveOrder[i] = param;
-
+                if ((exc_inputNums[i] + param) > order.maxOrder[i]) {
+                    order.maxActiveOrder[i] = order.maxActiveOrder[i];
+                } else {
+                    order.maxActiveOrder[i] = param;
                 }
-
-
             }
-
-
         }
 
-
-
-        $(maxInput[i]).html(order.maxAtiveOrder[i] + '单');
-
+        $(maxInput[i]).html(order.maxActiveOrder[i] + '单');
     }
 
+    console.log(order);
 }
 
 
@@ -938,8 +996,6 @@ function excWrite(order) {
         val_num = isNaN(val_num) ? 0 : val_num;
         maxJudge(_this, val_num, order);
         sumExcOrder();
-
-
     });
 
     _minBtn.on('click', function() {
@@ -951,7 +1007,6 @@ function excWrite(order) {
         val_num = isNaN(val_num) ? 0 : val_num;
         maxJudge(_this, val_num, order);
         sumExcOrder();
-
     });
 
     _planInput.on('change', function() {
@@ -961,14 +1016,12 @@ function excWrite(order) {
 
         maxJudge(_this, val_num, order);
         sumExcOrder();
-
     });
 }
 
 
 
 function maxJudge(_this, num, order) {
-
 
 
     var excActiveOrder = order.excActiveOrder;
@@ -994,7 +1047,6 @@ function maxJudge(_this, num, order) {
     }
 
 
-
     var _parent = _this.parent();
     // 如果点击的是+
     if (clickType == 1) {
@@ -1005,11 +1057,10 @@ function maxJudge(_this, num, order) {
 
             excActiveOrder -= 1;
             order.excActiveOrder = excActiveOrder;
-            order.maxAtiveOrder[index] -= 1;
+            order.maxActiveOrder[index] -= 1;
             calcMax(order, index, clickType);
 
             num += 1;
-
 
         }
         // 如果点击的是-
@@ -1021,31 +1072,33 @@ function maxJudge(_this, num, order) {
 
             excActiveOrder += 1;
             order.excActiveOrder = excActiveOrder;
-            order.maxAtiveOrder[index] += 1;
+            order.maxActiveOrder[index] += 1;
             calcMax(order, index, clickType);
             num -= 1;
         }
-        
-    } 
-    // 如果是直接输入的input
-   /* else if (clickType == 3) {
-        if (isNaN(num)) {
-            num = 0;
-        } else if (num >= order.maxcAtiveOrder[index]) {
-            num = order.maxcAtiveOrder[index];
-            order.maxcAtiveOrder[index] = 0;
-            excActiveOrder -= num;
-            order.excActiveOrder = excActiveOrder;
-            calcMax(order, index);
-        } else {
-            order.maxcAtiveOrder[index] = order.maxcAtiveOrder[index] - num;
-            excActiveOrder -= num;
-            order.excActiveOrder = excActiveOrder;
-            calcMax(order, index);
-        }
 
-    }*/
+    }
+    // 如果是直接输入的input
+    /* else if (clickType == 3) {
+         if (isNaN(num)) {
+             num = 0;
+         } else if (num >= order.maxcAtiveOrder[index]) {
+             num = order.maxcAtiveOrder[index];
+             order.maxcAtiveOrder[index] = 0;
+             excActiveOrder -= num;
+             order.excActiveOrder = excActiveOrder;
+             calcMax(order, index);
+         } else {
+             order.maxcAtiveOrder[index] = order.maxcAtiveOrder[index] - num;
+             excActiveOrder -= num;
+             order.excActiveOrder = excActiveOrder;
+             calcMax(order, index);
+         }
+
+     }*/
     _planInput[index].value = num <= 0 ? "" : num;
+
+
 
 }
 
@@ -1056,6 +1109,94 @@ function sumExcOrder() {
     for (var i = 0, len = _planInput.length; i < len; i++) {
         sumExcOrder += isNaN(parseInt(_planInput[i].value)) ? 0 : parseInt(_planInput[i].value);
     }
-    console.log(sumExcOrder);
     $('#sum-exc-tryOrder > b').html(sumExcOrder + '单');
+}
+
+
+
+
+/**
+ * 如果用户有填写过，则日历显示用户有的值
+ * 
+ */
+
+function isWrited(type, order) {
+
+
+    // 当获取用户有填写日历值时，填充日历
+    $.ajax({
+        url: '../../calc.json',
+        type: 'POST',
+        success: function(data) {
+            if (data) {
+                var data = $.parseJSON(data);
+                reproduction(data, type, order);
+            }
+        }
+    })
+}
+
+
+// 根据用户填写过的内容，填充日历
+function reproduction(data, type, order) {
+
+
+    var trial_num = data.trial_info.trial_num;
+    var conversion_rate = data.trial_info.conversion_rate;
+    var exchange_num = data.trial_info.exchange_num;
+
+
+    var trial_num_arr = trial_num.split(',');
+
+    trial_num_arr = trial_num_arr.map(function(num) {
+        return parseInt(num);
+    })
+
+
+    var rate_arr = conversion_rate.split(',');
+    var exchange_num_arr = exchange_num.split(',');
+
+    var _input_box = $('.calendar-try .p-choose .p-btn');
+    var _rate_box = $('.calendar .rate-box .rate');
+
+    // 填充试用订单日历
+    _input_box.each(function(i) {
+        $(this).val(trial_num_arr[i]);
+    });
+
+    _rate_box.each(function(i) {
+        rate_arr[i] != 0 ? $(this).val(rate_arr[i]) : null;
+    });
+
+    limitPeople();
+
+
+    // 执行打开兑换盒子
+    exchangeSchedule(type, order);
+    // 填充兑换盒子
+    var _exc_input_box = $('.calendar-exchange .p-choose .p-btn');
+
+    _exc_input_box.each(function(i) {
+        exchange_num_arr[i] != 0 ? $(this).val(exchange_num_arr[i]) : null;
+    });
+
+    sumExcOrder();
+ 
+
+    calcSumOrder.call(null, trial_num_arr, order);
+    calcMax.call(null,order);
+
+    var maxActiveOrder = order.maxActiveOrder;
+    var maxInput = $('.calendar-exchange li.validDay_exc ._maxNum > b');
+
+    // 重置每个兑换盒子maxoActiveOrder
+    for(var i in maxActiveOrder){
+        maxActiveOrder[i] = 0 ;
+        maxInput[i].innerHTML = maxActiveOrder[i] + '单';
+    }
+
+    // 重置兑换总数order数量
+    order.excActiveOrder = 0;
+
+
 }
