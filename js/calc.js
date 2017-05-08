@@ -2,21 +2,9 @@
     /**
      * @tryType 1 人气产品  2 高价值产品  3 综合产品  
      */
-    var tryType = 2;
-
 
     // 初始化type
-    var type = { 'tryType': 1, 'delay': 1 };
-    if (tryType == 1) {
-        type.tryType = 1;
-        type.delay = 1;
-    } else if (tryType == 2) {
-        type.tryType = 2;
-        type.delay = 4;
-    } else if (tryType == 3) {
-        type.tryType = 3;
-        type.delay = 0;
-    }
+    var type = { 'tryType': 2, 'delay': 6 };
 
     init(type);
     bindEvent(type);
@@ -30,6 +18,12 @@ function init(type) {
     // 根据类型展示页面对应模块
     $('div[data-tryType="' + type.tryType + '"]').show();
 
+    // 如果用户填写了，延迟6天展示
+    if(type.tryType == 2 && type.delay == 6){
+        $('#delay4').removeAttr('checked');
+        $('#delay6').attr('checked','checked');
+
+    }
 
     // 页面默认今天日历
     var today = new Date();
@@ -53,7 +47,6 @@ function bindEvent(type) {
 
     // 获取用户选择日期
     chooseTime(type);
-
 
     // 切换高价值日历，延迟展示时间
     var today = new Date();
@@ -105,7 +98,7 @@ function lessTips(type) {
         });
 
 
-        if (sumOrder > 10) {
+        if (sumOrder >= 10) {
             if (excOrder == Math.round(sumOrder * 0.2)) {
                 //如果都满足条件 
                 flag = 1
@@ -975,7 +968,6 @@ function calcMax(order, index, clickType) {
         $(maxInput[i]).html(order.maxActiveOrder[i] + '单');
     }
 
-    console.log(order);
 }
 
 
@@ -1125,7 +1117,7 @@ function isWrited(type, order) {
 
     // 当获取用户有填写日历值时，填充日历
     $.ajax({
-        url: '../../calc.json',
+        url: '../../four.json',
         type: 'POST',
         success: function(data) {
             if (data) {
@@ -1140,11 +1132,33 @@ function isWrited(type, order) {
 // 根据用户填写过的内容，填充日历
 function reproduction(data, type, order) {
 
+    // 重置时间
+    reTime(data,type);
+
+    // 重置试用订单日历
+    reOrderCalc(data, order);
+    
+    // 重置兑换订单日历
+    reExcOrderCalc(data,type,order);
+    
+}
+
+
+
+function reTime(data,type){
+
+    var time = data.trial_info.toPublish_time;
+    $('#chooseTime').val(time);
+    whichDay(new Date(time),type);
+
+}
+
+
+function reOrderCalc(data, order){
 
     var trial_num = data.trial_info.trial_num;
     var conversion_rate = data.trial_info.conversion_rate;
-    var exchange_num = data.trial_info.exchange_num;
-
+   
 
     var trial_num_arr = trial_num.split(',');
 
@@ -1152,10 +1166,8 @@ function reproduction(data, type, order) {
         return parseInt(num);
     })
 
-
     var rate_arr = conversion_rate.split(',');
-    var exchange_num_arr = exchange_num.split(',');
-
+   
     var _input_box = $('.calendar-try .p-choose .p-btn');
     var _rate_box = $('.calendar .rate-box .rate');
 
@@ -1170,6 +1182,18 @@ function reproduction(data, type, order) {
 
     limitPeople();
 
+    // 计算试用订单总数
+    calcSumOrder.call(null, trial_num_arr, order);
+
+}
+
+
+
+
+function reExcOrderCalc(data,type,order){
+
+     var exchange_num = data.trial_info.exchange_num;
+     var exchange_num_arr = exchange_num.split(',');
 
     // 执行打开兑换盒子
     exchangeSchedule(type, order);
@@ -1183,7 +1207,7 @@ function reproduction(data, type, order) {
     sumExcOrder();
  
 
-    calcSumOrder.call(null, trial_num_arr, order);
+    // 计算每个盒子最大值
     calcMax.call(null,order);
 
     var maxActiveOrder = order.maxActiveOrder;
@@ -1197,6 +1221,5 @@ function reproduction(data, type, order) {
 
     // 重置兑换总数order数量
     order.excActiveOrder = 0;
-
 
 }
