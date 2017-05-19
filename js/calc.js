@@ -1,6 +1,7 @@
 (function() {
     /**
      * @tryType 1 人气产品  2 高价值产品  3 综合产品  
+     * @delay   表示只展示的天数（即延迟开奖的天数）  
      */
 
     // 初始化type
@@ -19,9 +20,9 @@ function init(type) {
     $('div[data-tryType="' + type.tryType + '"]').show();
 
     // 如果用户填写了，延迟6天展示
-    if(type.tryType == 2 && type.delay == 6){
+    if (type.tryType == 2 && type.delay == 6) {
         $('#delay4').removeAttr('checked');
-        $('#delay6').attr('checked','checked');
+        $('#delay6').attr('checked', 'checked');
 
     }
 
@@ -38,6 +39,10 @@ function init(type) {
         whichDay(today, type);
         $('#chooseTime').val(today.toLocaleDateString());
     }
+
+
+    // 开始投放时，检查用户有没有填写过日历，如果有则显示用户写过的
+    isWrited(type);
 
 }
 
@@ -65,6 +70,8 @@ function bindEvent(type) {
 
     // 各种异常判断提示
     tips(type);
+
+
 
 }
 
@@ -142,7 +149,6 @@ function chooseTime(type) {
 
         laydate({
             elem: '#chooseTime',
-            istime: true,
             format: 'YYYY-MM-DD',
             festival: true,
             istime: false,
@@ -158,7 +164,6 @@ function chooseTime(type) {
 
         laydate({
             elem: '#chooseTime',
-            istime: true,
             format: 'YYYY-MM-DD',
             festival: true,
             istime: false,
@@ -590,8 +595,6 @@ function schedule(type) {
     // 兑换日历操作
     exchangeSchedule(type, order);
 
-    // 开始投放时，检查用户有没有填写过日历，如果有则显示用户写过的
-    isWrited(type, order);
 
 }
 
@@ -1109,20 +1112,22 @@ function sumExcOrder() {
 
 /**
  * 如果用户有填写过，则日历显示用户有的值
+ *
+ * 
  * 
  */
 
-function isWrited(type, order) {
+function isWrited(type) {
 
 
     // 当获取用户有填写日历值时，填充日历
     $.ajax({
         url: '../../four.json',
         type: 'POST',
+        dataType:'json',
         success: function(data) {
-            if (data) {
-                var data = $.parseJSON(data);
-                reproduction(data, type, order);
+            if (data.trial_info.trial_num != '') {    
+                reproduction(data, type);
             }
         }
     })
@@ -1130,35 +1135,38 @@ function isWrited(type, order) {
 
 
 // 根据用户填写过的内容，填充日历
-function reproduction(data, type, order) {
+function reproduction(data, type) {
+
+    //虚拟一个初始化order跑流程
+    var order = { 'sumOrder': 0, 'excOrder': 0, 'excActiveOrder': 0, 'maxOrder': {}, 'maxActiveOrder': {} }
 
     // 重置时间
-    reTime(data,type);
+    reTime(data, type);
 
     // 重置试用订单日历
-    reOrderCalc(data, order);
-    
+    reOrderCalc(data, type, order);
+
     // 重置兑换订单日历
-    reExcOrderCalc(data,type,order);
-    
+    reExcOrderCalc(data, type, order);
+
 }
 
 
 
-function reTime(data,type){
+function reTime(data, type) {
 
-    var time = data.trial_info.toPublish_time;
+    var time = new Date(data.trial_info.toPublish_time).toLocaleDateString();
     $('#chooseTime').val(time);
-    whichDay(new Date(time),type);
+    whichDay(new Date(time), type);
 
 }
 
 
-function reOrderCalc(data, order){
+function reOrderCalc(data,type, order) {
 
     var trial_num = data.trial_info.trial_num;
     var conversion_rate = data.trial_info.conversion_rate;
-   
+
 
     var trial_num_arr = trial_num.split(',');
 
@@ -1167,7 +1175,7 @@ function reOrderCalc(data, order){
     })
 
     var rate_arr = conversion_rate.split(',');
-   
+
     var _input_box = $('.calendar-try .p-choose .p-btn');
     var _rate_box = $('.calendar .rate-box .rate');
 
@@ -1183,17 +1191,18 @@ function reOrderCalc(data, order){
     limitPeople();
 
     // 计算试用订单总数
-    calcSumOrder.call(null, trial_num_arr, order);
+     calcSumOrder.call(null, trial_num_arr, order);
+     planSchedule(type, order)
 
 }
 
 
 
 
-function reExcOrderCalc(data,type,order){
+function reExcOrderCalc(data, type, order) {
 
-     var exchange_num = data.trial_info.exchange_num;
-     var exchange_num_arr = exchange_num.split(',');
+    var exchange_num = data.trial_info.exchange_num;
+    var exchange_num_arr = exchange_num.split(',');
 
     // 执行打开兑换盒子
     exchangeSchedule(type, order);
@@ -1205,17 +1214,17 @@ function reExcOrderCalc(data,type,order){
     });
 
     sumExcOrder();
- 
+
 
     // 计算每个盒子最大值
-    calcMax.call(null,order);
+    calcMax.call(null, order);
 
     var maxActiveOrder = order.maxActiveOrder;
     var maxInput = $('.calendar-exchange li.validDay_exc ._maxNum > b');
 
     // 重置每个兑换盒子maxoActiveOrder
-    for(var i in maxActiveOrder){
-        maxActiveOrder[i] = 0 ;
+    for (var i in maxActiveOrder) {
+        maxActiveOrder[i] = 0;
         maxInput[i].innerHTML = maxActiveOrder[i] + '单';
     }
 
